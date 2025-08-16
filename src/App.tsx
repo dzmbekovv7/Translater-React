@@ -4,16 +4,21 @@ import axios from "axios";
 function App() {
   const [text, setText] = useState("");
   const [translation, setTranslation] = useState("");
+interface TranslateResponse {
+  translated_text: string;
+}
 
-  const handleTranslate = async () => {
-    try {
-      const res = await axios.post("http://127.0.0.1:8001/translate", { text });
-      setTranslation(res.data.translated_text);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+const handleTranslate = async () => {
+  try {
+    const res = await axios.post<TranslateResponse>(
+      "http://127.0.0.1:8001/translate",
+      { text }
+    );
+    setTranslation(res.data.translated_text);
+  } catch (err) {
+    console.error(err);
+  }
+};
   return (
     <div className="min-h-screen flex justify-center items-center font-[Poppins] bg-gradient-to-br from-[#6e8efb] to-[#a777e3] p-4">
       <div className="max-w-xl w-full p-8 text-center rounded-2xl bg-white/15 backdrop-blur-xl shadow-2xl text-white animate-fadeIn">
